@@ -2,6 +2,9 @@
 #define VCAM_CONTEXT_H
 
 #include "Global.h"
+#include "FrameBuffer.h"
+
+struct FrameBuffer;
 
 class VCamContext {
 public:
@@ -21,8 +24,7 @@ public:
     // IPC members
     HANDLE handlerMutex{nullptr};
     HANDLE handlerMappedFile{nullptr};
-
-
+    FrameBuffer frameBuffer{nullptr};
 
 private:
     std::atomic<uint32_t> refCount;
