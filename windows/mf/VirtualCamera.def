@@ -1,0 +1,8 @@
+LIBRARY VirtualCam
+EXPORTS
+    CreateVCam
+    DestroyVCam
+    PushVirtualCamFrame
+    DllGetClassObject   PRIVATE
+    DllRegisterServer   PRIVATE
+    DllUnregisterServer PRIVATE
