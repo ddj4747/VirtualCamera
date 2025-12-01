@@ -8,13 +8,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if (WIN32)
-    set(SOURCES
-            windows/mf/DllMain.cpp
-            windows/mf/Global.h
-            windows/mf/VirtualCamera.h
-            windows/mf/VCamContext.cpp
-            windows/mf/VCamContext.h
-    )
+    FILE(GLOB_RECURSE SOURCES windows/mf)
 
     add_library(VirtualCam SHARED
             ${SOURCES}

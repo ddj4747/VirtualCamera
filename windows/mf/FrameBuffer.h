@@ -8,7 +8,7 @@ struct FrameBuffer {
     UINT32 width;
     UINT32 height;
     GUID format;
-    BYTE* data[Global::maxFrameDataSize];
+    BYTE data[maxFrameDataSize];
 };
 
 #endif //FRAMEBUFFER_H

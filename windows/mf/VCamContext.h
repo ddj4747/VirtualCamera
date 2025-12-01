@@ -6,7 +6,7 @@
 
 struct FrameBuffer;
 
-class VCamContext {
+class VCamContext final {
 public:
     explicit VCamContext(std::wstring name);
     virtual ~VCamContext();
@@ -24,7 +24,7 @@ public:
     // IPC members
     HANDLE handlerMutex{nullptr};
     HANDLE handlerMappedFile{nullptr};
-    FrameBuffer frameBuffer{nullptr};
+    FrameBuffer* frameBuffer{nullptr};
 
 private:
     std::atomic<uint32_t> refCount;
