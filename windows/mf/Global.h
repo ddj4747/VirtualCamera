@@ -48,10 +48,10 @@
 #include <dwrite.h>
 #include <wincodec.h>
 #include <uuids.h>
+#include <wil/com.h>
+#include <wil/resource.h>
 
 #include <winrt/Windows.ApplicationModel.h>
-#include <wil/com.h>
-#include <wil/prop.h>
 
 
 #include <objbase.h>

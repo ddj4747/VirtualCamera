@@ -27,6 +27,7 @@ public:
     STDMETHOD(Shutdown)() override;
 
 private:
+    int GetStreamIndexById(DWORD id);
 
     ComPtr<IMFMediaEventQueue> m_eventQueue;
     ComPtr<IMFPresentationDescriptor> m_descriptor;
@@ -35,5 +36,6 @@ private:
     std::mutex m_mutex;
     bool m_isShutdown = false;
 };
+
 
 #endif //MEDIA_SOURCE_H

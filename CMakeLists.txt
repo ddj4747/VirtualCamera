@@ -16,6 +16,7 @@ if (WIN32)
             GIT_TAG        v1.0.250325.1
     )
 
+    set(WIL_BUILD_TESTS FALSE)
     FetchContent_MakeAvailable(WIL)
 
     FILE(GLOB_RECURSE SOURCES windows/mf/*)
@@ -33,7 +34,7 @@ if (WIN32)
             Ole32.lib
             Kernel32.lib
             Mfsensorgroup.lib
-            wil
+            WIL
     )
 
     target_include_directories(VirtualCam PUBLIC windows/mf/VirtualCamera.h)
