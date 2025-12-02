@@ -8,7 +8,17 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 if (WIN32)
-    FILE(GLOB_RECURSE SOURCES windows/mf)
+    include(FetchContent)
+
+    FetchContent_Declare(
+            WIL
+            GIT_REPOSITORY https://github.com/microsoft/wil.git
+            GIT_TAG        v1.0.250325.1
+    )
+
+    FetchContent_MakeAvailable(WIL)
+
+    FILE(GLOB_RECURSE SOURCES windows/mf/*)
 
     add_library(VirtualCam SHARED
             ${SOURCES}
@@ -23,6 +33,7 @@ if (WIN32)
             Ole32.lib
             Kernel32.lib
             Mfsensorgroup.lib
+            wil
     )
 
     target_include_directories(VirtualCam PUBLIC windows/mf/VirtualCamera.h)

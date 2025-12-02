@@ -1,6 +1,12 @@
 #ifndef GLOBAL_H
 #define GLOBAL_H
 
+#define WIN32_LEAN_AND_MEAN
+#define _CRTDBG_MAP_ALLOC
+
+#include <cstdlib>
+#include <crtdbg.h>
+
 #include <windows.h>
 #include <mfapi.h>
 #include <mfobjects.h>
@@ -18,6 +24,35 @@
 #include <chrono>
 #include <strsafe.h>
 #include <Ks.h>
+#include <atlbase.h>
+#include <winnt.h>
+#include <strmif.h>
+#include <wtypes.h>
+
+#include <windows.h>
+#include <evntprov.h>
+#include <strsafe.h>
+#include <initguid.h>
+#include <propvarutil.h>
+#include <mfapi.h>
+#include <mfidl.h>
+#include <mfvirtualcamera.h>
+#include <mferror.h>
+#include <mfcaptureengine.h>
+#include <ks.h>
+#include <ksproxy.h>
+#include <ksmedia.h>
+#include <dxgi.h>
+#include <d3d11.h>
+#include <d2d1_1.h>
+#include <dwrite.h>
+#include <wincodec.h>
+#include <uuids.h>
+
+#include <winrt/Windows.ApplicationModel.h>
+#include <wil/com.h>
+#include <wil/prop.h>
+
 
 #include <objbase.h>
 #include <shlwapi.h>
@@ -26,6 +61,7 @@
 #pragma comment(lib, "Mfplat.lib")
 #pragma comment(lib, "Mf.lib")
 #pragma comment(lib, "Mfuuid.lib")
+#pragma comment(lib, "mfsensorgroup")
 
 using namespace Microsoft::WRL;
 

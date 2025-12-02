@@ -2,16 +2,14 @@
 #define MEDIA_SOURCE_H
 
 #include "Global.h"
+#include "MediaStream.h"
 
-class MediaSource : public RuntimeClass<
+class MediaSource final : public RuntimeClass<
     RuntimeClassFlags<WinRtClassicComMix>,
     IMFMediaSource,
     IMFMediaEventGenerator
 > {
 public:
-    SimpleMediaSource();
-    ~SimpleMediaSource();
-
     static HRESULT CreateInstance(REFIID iid, void** ppv);
 
     // IMFMediaEventGenerator
@@ -29,7 +27,13 @@ public:
     STDMETHOD(Shutdown)() override;
 
 private:
+
     ComPtr<IMFMediaEventQueue> m_eventQueue;
+    ComPtr<IMFPresentationDescriptor> m_descriptor;
+    winrt::com_array<ComPtr<MediaStream>> m_streams;
+
+    std::mutex m_mutex;
+    bool m_isShutdown = false;
 };
 
 #endif //MEDIA_SOURCE_H
