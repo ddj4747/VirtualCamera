@@ -67,6 +67,16 @@ using namespace Microsoft::WRL;
 
 class VCamContext;
 
+inline std::wstring GuidToString(const GUID& guid) {
+    LPOLESTR str = nullptr;
+    if (SUCCEEDED(StringFromCLSID(guid, &str))) {
+        std::wstring wstr(str);
+        CoTaskMemFree(str);
+        return wstr;
+    }
+    return L"";
+}
+
 struct Global {
     static std::mutex registryMutex;
     static std::map<HANDLE, VCamContext*> contexts;

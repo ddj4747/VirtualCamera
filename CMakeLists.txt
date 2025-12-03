@@ -34,6 +34,7 @@ if (WIN32)
             Ole32.lib
             Kernel32.lib
             Mfsensorgroup.lib
+            RuntimeObject.lib
             WIL
     )
 

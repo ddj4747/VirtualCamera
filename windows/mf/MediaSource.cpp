@@ -1,4 +1,9 @@
 #include "MediaSource.h"
+#include "MediaStream.h"
+
+MediaSource::MediaSource() {
+    MFCreateAttributes(&m_attributes, 0);
+}
 
 int MediaSource::GetStreamIndexById(DWORD id)
 {
@@ -17,6 +22,37 @@ int MediaSource::GetStreamIndexById(DWORD id)
     }
     return -1;
 }
+
+STDMETHODIMP MediaSource::GetItem(REFGUID guidKey, PROPVARIANT* pValue) { return m_attributes->GetItem(guidKey, pValue); }
+STDMETHODIMP MediaSource::GetItemType(REFGUID guidKey, MF_ATTRIBUTE_TYPE* pType) { return m_attributes->GetItemType(guidKey, pType); }
+STDMETHODIMP MediaSource::CompareItem(REFGUID guidKey, REFPROPVARIANT Value, BOOL* pbResult) { return m_attributes->CompareItem(guidKey, Value, pbResult); }
+STDMETHODIMP MediaSource::Compare(IMFAttributes* pTheirs, MF_ATTRIBUTES_MATCH_TYPE MatchType, BOOL* pbResult) { return m_attributes->Compare(pTheirs, MatchType, pbResult); }
+STDMETHODIMP MediaSource::GetUINT32(REFGUID guidKey, UINT32* punValue) { return m_attributes->GetUINT32(guidKey, punValue); }
+STDMETHODIMP MediaSource::GetUINT64(REFGUID guidKey, UINT64* punValue) { return m_attributes->GetUINT64(guidKey, punValue); }
+STDMETHODIMP MediaSource::GetDouble(REFGUID guidKey, double* pfValue) { return m_attributes->GetDouble(guidKey, pfValue); }
+STDMETHODIMP MediaSource::GetGUID(REFGUID guidKey, GUID* pguidValue) { return m_attributes->GetGUID(guidKey, pguidValue); }
+STDMETHODIMP MediaSource::GetStringLength(REFGUID guidKey, UINT32* pcchLength) { return m_attributes->GetStringLength(guidKey, pcchLength); }
+STDMETHODIMP MediaSource::GetString(REFGUID guidKey, LPWSTR pwszValue, UINT32 cchBufSize, UINT32* pcchLength) { return m_attributes->GetString(guidKey, pwszValue, cchBufSize, pcchLength); }
+STDMETHODIMP MediaSource::GetAllocatedString(REFGUID guidKey, LPWSTR* ppwszValue, UINT32* pcchLength) { return m_attributes->GetAllocatedString(guidKey, ppwszValue, pcchLength); }
+STDMETHODIMP MediaSource::GetBlobSize(REFGUID guidKey, UINT32* pcbBlobSize) { return m_attributes->GetBlobSize(guidKey, pcbBlobSize); }
+STDMETHODIMP MediaSource::GetBlob(REFGUID guidKey, UINT8* pBuf, UINT32 cbBufSize, UINT32* pcbBlobSize) { return m_attributes->GetBlob(guidKey, pBuf, cbBufSize, pcbBlobSize); }
+STDMETHODIMP MediaSource::GetAllocatedBlob(REFGUID guidKey, UINT8** ppBuf, UINT32* pcbSize) { return m_attributes->GetAllocatedBlob(guidKey, ppBuf, pcbSize); }
+STDMETHODIMP MediaSource::GetUnknown(REFGUID guidKey, REFIID riid, LPVOID* ppv) { return m_attributes->GetUnknown(guidKey, riid, ppv); }
+STDMETHODIMP MediaSource::SetItem(REFGUID guidKey, REFPROPVARIANT Value) { return m_attributes->SetItem(guidKey, Value); }
+STDMETHODIMP MediaSource::DeleteItem(REFGUID guidKey) { return m_attributes->DeleteItem(guidKey); }
+STDMETHODIMP MediaSource::DeleteAllItems() { return m_attributes->DeleteAllItems(); }
+STDMETHODIMP MediaSource::SetUINT32(REFGUID guidKey, UINT32 unValue) { return m_attributes->SetUINT32(guidKey, unValue); }
+STDMETHODIMP MediaSource::SetUINT64(REFGUID guidKey, UINT64 unValue) { return m_attributes->SetUINT64(guidKey, unValue); }
+STDMETHODIMP MediaSource::SetDouble(REFGUID guidKey, double fValue) { return m_attributes->SetDouble(guidKey, fValue); }
+STDMETHODIMP MediaSource::SetGUID(REFGUID guidKey, REFGUID guidValue) { return m_attributes->SetGUID(guidKey, guidValue); }
+STDMETHODIMP MediaSource::SetString(REFGUID guidKey, LPCWSTR wszValue) { return m_attributes->SetString(guidKey, wszValue); }
+STDMETHODIMP MediaSource::SetBlob(REFGUID guidKey, const UINT8* pBuf, UINT32 cbBufSize) { return m_attributes->SetBlob(guidKey, pBuf, cbBufSize); }
+STDMETHODIMP MediaSource::SetUnknown(REFGUID guidKey, IUnknown* pUnknown) { return m_attributes->SetUnknown(guidKey, pUnknown); }
+STDMETHODIMP MediaSource::LockStore() { return m_attributes->LockStore(); }
+STDMETHODIMP MediaSource::UnlockStore() { return m_attributes->UnlockStore(); }
+STDMETHODIMP MediaSource::GetCount(UINT32* pcItems) { return m_attributes->GetCount(pcItems); }
+STDMETHODIMP MediaSource::GetItemByIndex(UINT32 unIndex, GUID* pguidKey, PROPVARIANT* pValue) { return m_attributes->GetItemByIndex(unIndex, pguidKey, pValue); }
+STDMETHODIMP MediaSource::CopyAllItems(IMFAttributes* pDest) { return m_attributes->CopyAllItems(pDest); }
 
 
 HRESULT MediaSource::BeginGetEvent(IMFAsyncCallback* pCallback, IUnknown* punkState) {

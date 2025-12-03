@@ -27,16 +27,6 @@ void GetPipeName(std::string& outName, const std::wstring& suffix) {
     );
 }
 
-std::wstring GuidToString(const GUID& guid) {
-    LPOLESTR str = nullptr;
-    if (SUCCEEDED(StringFromCLSID(guid, &str))) {
-        std::wstring wstr(str);
-        CoTaskMemFree(str);
-        return wstr;
-    }
-    return L"";
-}
-
 extern "C" {
     HRESULT CreateVCam(const LPCWSTR friendlyName, HANDLE* outHandle) {
         if (!friendlyName || !outHandle) return E_INVALIDARG;
