@@ -5,9 +5,8 @@
 #include "MediaStream.h"
 
 class MediaSource : public RuntimeClass<
-    RuntimeClassFlags<WinRtClassicComMix>,
-    IMFMediaSource,
-    IMFMediaEventGenerator,
+    RuntimeClassFlags<ClassicCom>,
+    IMFMediaSourceEx,
     IMFAttributes
 > {
 public:
@@ -29,6 +28,10 @@ public:
     STDMETHOD(Stop)() override;
     STDMETHOD(Pause)() override;
     STDMETHOD(Shutdown)() override;
+
+    STDMETHOD(GetSourceAttributes)(IMFAttributes** ppAttributes) override;
+    STDMETHOD(GetStreamAttributes)(DWORD dwStreamIdentifier, IMFAttributes** ppAttributes) override; // <--- DODAJ TO
+    STDMETHOD(SetD3DManager)(IUnknown* pManager) override;
 
     // --- IMFAttributes Implementation (Forwarding) ---
     STDMETHOD(GetItem)(REFGUID guidKey, PROPVARIANT* pValue) override;

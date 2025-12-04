@@ -2,6 +2,7 @@
 #include "MediaStream.h"
 
 MediaSource::MediaSource() {
+    LOG_MSG(L"MediaSource Constructor Called");
     MFCreateAttributes(&m_attributes, 0);
 }
 
@@ -132,6 +133,7 @@ HRESULT MediaSource::Pause() {
 }
 
 HRESULT MediaSource::Shutdown() {
+    LOG_MSG(L"Shutting down MediaSource");
     std::lock_guard<std::mutex> lock(m_mutex);
     if (!m_eventQueue) {
         return MF_E_SHUTDOWN;
@@ -149,6 +151,7 @@ HRESULT MediaSource::Shutdown() {
 }
 
 HRESULT MediaSource::Start(IMFPresentationDescriptor* pPresentationDescriptor, const GUID* pguidTimeFormat, const PROPVARIANT* pvarStartPosition) {
+    LOG(L"Starting MediaSource. Start Position Type: %d", pvarStartPosition ? pvarStartPosition->vt : -1);
     if (pPresentationDescriptor == nullptr || pvarStartPosition == nullptr) {
         return E_POINTER;
     }
@@ -212,6 +215,7 @@ HRESULT MediaSource::Start(IMFPresentationDescriptor* pPresentationDescriptor, c
 }
 
 HRESULT MediaSource::Stop() {
+    LOG_MSG(L"Stopping MediaSource");
     std::lock_guard<std::mutex> lock(m_mutex);
 
     if (!m_eventQueue || !m_descriptor) {
@@ -226,4 +230,45 @@ HRESULT MediaSource::Stop() {
     InitPropVariantFromInt64(MFGetSystemTime(), &stopTime);
 
     return m_eventQueue->QueueEventParamVar(MESourceStopped, GUID_NULL, S_OK, &stopTime);
+}
+
+HRESULT MediaSource::GetSourceAttributes(IMFAttributes** ppAttributes) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_isShutdown) return MF_E_SHUTDOWN;
+    if (!ppAttributes) return E_POINTER;
+    return m_attributes.CopyTo(ppAttributes);
+}
+
+// Implementacja GetStreamAttributes (NOWA)
+HRESULT MediaSource::GetStreamAttributes(DWORD dwStreamIdentifier, IMFAttributes** ppAttributes) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_isShutdown) return MF_E_SHUTDOWN;
+    if (!ppAttributes) return E_POINTER;
+
+    // Zakładając, że masz tylko jeden strumień z identyfikatorem 0 lub 1
+    // (W prawdziwym kodzie, GetStreamIndexById jest lepsze)
+    int index = GetStreamIndexById(dwStreamIdentifier);
+
+    if (index >= 0 && index < m_streams.size()) {
+        wil::com_ptr_nothrow<IMFStreamDescriptor> descriptor;
+        // Pamiętaj, że atrybuty są na StreamDescriptor, nie na MediaStream
+        if (SUCCEEDED(m_streams[index]->GetStreamDescriptor(&descriptor))) {
+            return descriptor.copy_to(ppAttributes);
+        }
+        return E_FAIL; // Niepowodzenie pobrania deskryptora
+    }
+
+    return MF_E_INVALIDSTREAMNUMBER; // Nie znaleziono strumienia
+}
+
+// Implementacja SetD3DManager (NOWA)
+HRESULT MediaSource::SetD3DManager(IUnknown* pManager) {
+    std::lock_guard<std::mutex> lock(m_mutex);
+    if (m_isShutdown) return MF_E_SHUTDOWN;
+
+    // W tej prostej implementacji z pamięcią systemową po prostu akceptujemy/ignorujemy menedżera
+    LOG(L"SetD3DManager called. Manager pointer: %p", pManager);
+
+    // Jeśli używasz pamięci systemowej (jak w Twoim kodzie MediaStream::DeliverSample), po prostu zwróć S_OK
+    return S_OK;
 }

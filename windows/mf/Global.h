@@ -67,6 +67,18 @@ using namespace Microsoft::WRL;
 
 class VCamContext;
 
+#define ENABLE_LOGGING
+#ifdef ENABLE_LOGGING
+void DebugLog(const wchar_t* format, ...);
+
+#define LOG(format, ...) DebugLog(L"[VCam] %s: " format, __FUNCTIONW__, __VA_ARGS__)
+
+#define LOG_MSG(msg) DebugLog(L"[VCam] %s: %s", __FUNCTIONW__, msg)
+#else
+
+#endif
+
+
 inline std::wstring GuidToString(const GUID& guid) {
     LPOLESTR str = nullptr;
     if (SUCCEEDED(StringFromCLSID(guid, &str))) {

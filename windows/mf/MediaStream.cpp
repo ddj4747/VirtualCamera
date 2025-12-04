@@ -93,6 +93,7 @@ STDMETHODIMP_(NTSTATUS) MediaStream::KsEvent(PKSEVENT Event, ULONG EventLength, 
 
 
 HRESULT MediaStream::Initialize(IMFMediaSource* source, DWORD streamId) {
+    LOG(L"Initializing Stream ID: %d", streamId);
     m_parent = source;
     m_streamId = streamId;
 
@@ -149,6 +150,7 @@ HRESULT MediaStream::CreateVideoMediaType(IMFMediaType** ppMediaType) {
 }
 
 HRESULT MediaStream::Start(IMFMediaType* type) {
+    LOG_MSG(L"Stream Start");
     std::lock_guard<std::mutex> lock(m_mutex);
     if (m_isShutdown) return MF_E_SHUTDOWN;
 
